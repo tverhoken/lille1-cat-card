@@ -1,4 +1,4 @@
-import { createCard, getCard, updateCard } from './data-service.js';
+import { createCard, getCard, updateCard, deleteCard } from './data-service.js';
 import { setElementContent, getElement, addClass, removeClass } from './dom-helper.js';
 
 function redirectToHomePage() {
@@ -35,8 +35,8 @@ getElement('#cardForm').addEventListener('submit', e => {
     if (queryParams.cardId) {
       card.id = parseInt(getElement('#cardId').value, 10);
       updateCard(card)
-          .then(redirectToHomePage)
-          .catch(prepareErrorHandling(false));
+        .then(redirectToHomePage)
+        .catch(prepareErrorHandling(false));
     } else {
       createCard(card).then(redirectToHomePage);
     }
@@ -55,5 +55,11 @@ if (queryParams.cardId) {
 }
 const deleteButton = getElement('.btn-danger');
 addClass(deleteButton, 'd-none');
+deleteButton.addEventListener('click', e => {
+  e.preventDefault();
+  deleteCard(queryParams.cardId)
+    .then(redirectToHomePage)
+    .catch(prepareErrorHandling(false));
+});
 
 setElementContent('#currentYear', new Date().getFullYear());
