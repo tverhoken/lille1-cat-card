@@ -1,5 +1,9 @@
-import { createCard } from './data-service.js';
+import { createCard, getCard, updateCard } from './data-service.js';
 import { setElementContent, getElement, addClass, removeClass } from './dom-helper.js';
+
+function redirectToHomePage() {
+  location.href = '/';
+}
 
 getElement('#cardForm').addEventListener('submit', e => {
   e.preventDefault();
@@ -17,13 +21,25 @@ getElement('#cardForm').addEventListener('submit', e => {
       imageUrl,
       description
     };
-
-    createCard(card).then(() => {
-      location.href = '/';
-    });
+    if (queryParams.cardId) {
+      card.id = parseInt(getElement('#cardId').value, 10);
+      updateCard(card).then(redirectToHomePage);
+    } else {
+      createCard(card).then(redirectToHomePage);
+    }
   }
 });
 
+const queryParams = location.search.substring(1).split('&').map(p => p.split('=')).reduce((acc, v) => { acc[v[0]] = v[1]; return acc; }, {});
+
+if (queryParams.cardId) {
+  getCard(queryParams.cardId).then(card => {
+    getElement('#cardId').value = card.id;
+    getElement('#cardTitle').value = card.title;
+    getElement('#cardImage').value = card.imageUrl;
+    getElement('#cardDescription').value = card.description;
+  });
+}
 const deleteButton = getElement('.btn-danger');
 addClass(deleteButton, 'd-none');
 
