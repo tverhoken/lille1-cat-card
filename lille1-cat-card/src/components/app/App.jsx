@@ -27,7 +27,6 @@ function CatCard({title="Random cat card"}) {
 
 class App extends React.Component {
    render() {
-        var i = 1;
         var date = new Date().getFullYear();
         return (
             <main>

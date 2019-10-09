@@ -29,13 +29,13 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**Note: this is a one-way operation. Once you èject`, you can’t go back!**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+If you aren’t satisfied with the build tool and configuration choices, you can èject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except èject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+You don’t have to ever use èject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
 ## Learn More
 
@@ -68,11 +68,13 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
 
 
-### Notes :
+## Notes :
 1. State & Props :
-    - state : modifiable
-    - props : non modifiable car hérité de son component père
+    - `state` : modifiable
+    - `props` : non modifiable car hérité de son component père
     - Chemin : créer state dans le component père -> envoyer vers les components fils par props
+
+    <details><summary>code</summary>
 
     ```javascript
     class App extends React.Component { // père
@@ -102,3 +104,189 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
         }
     }
     ```
+    </details>
+
+    - `setState()` : update un state déjà existé
+    <details><summary>code</summary>
+
+    ```javascript
+    class App extends React.Component {
+        constructor() {
+            super();
+            this.state = {data: []}
+            this.setStateHandler = this.setStateHandler.bind(this);
+            // la fonction a pas été définie -> bind
+        };
+        setStateHandler() {
+            var item = "setState..."
+            var myArray = this.state.data.slice();
+            myArray.push(item);
+            this.setState({data: myArray})
+        };
+        render() {
+            return (
+                <div>
+                    <button onClick = {this.setStateHandler}>SET STATE</button>
+                    <h4>State Array: {this.state.data}</h4>
+                </div>
+            );
+        }
+    }
+    ```
+    </details>
+
+    - `forceUpdate()` : update component sans passer par state
+    <details><summary>code</summary>
+
+    ```javascript
+    class App extends React.Component {
+        constructor() {
+            super();
+            this.forceUpdateHandler = this.forceUpdateHandler.bind(this);
+        };
+        forceUpdateHandler() {
+            this.forceUpdate();
+        };
+        render() {
+            return (
+                <div>
+                    <button onClick = {this.forceUpdateHandler}>FORCE UPDATE</button>
+                    <h4>Random number: {Math.random()}</h4>
+                </div>
+            );
+        }
+    }
+    ```
+    </details>
+
+
+    - `findDOMNode()` : DOM (Document Object Model) virtual (ex node html div -> React.div)
+    <details><summary>code</summary>
+
+    ```javascript
+
+    import React from 'react';
+    import ReactDOM from 'react-dom';
+
+    class App extends React.Component {
+        constructor() {
+            super();
+            this.findDomNodeHandler = this.findDomNodeHandler.bind(this);
+        };
+        findDomNodeHandler() {
+            var myDiv = document.getElementById('myDiv');
+            ReactDOM.findDOMNode(myDiv).style.color = 'green';
+        }
+        render() {
+            return (
+                <div>
+                    <button onClick = {this.findDomNodeHandler}>FIND DOME NODE</button>
+                    <div id = "myDiv">NODE</div>
+                </div>
+            );
+        }
+    }
+    export default App;
+    ```
+    </details>
+
+2. React component :
+    - React component life cycle méthodes : 
+        + `componentWillMount` : Avant render sur server side et client side (exécutée avant que le composant ne soit inséré dans le DOM render n’a pas été appelée.)
+        + `componentDidMount` : après render sur client side (exécutée après que le composant ait été inséré dans le DOM render a été appelée.)
+        + `componentWillReceiveProps` : exécuter quand props est updated et avant re-render le component.
+        + `shouldComponentUpdate` : return true or false. Pour vérifier si un component a été update. Si on veut pas component re-render après update state ou props, return false.
+        + `componentWillUpdate` : exécuter quand on update state de component et component n'a pas encore re-render. (exécutée avant que le composant ne soit mis à jour dans le DOM render n’a pas encore été ré-appelée)
+        + `componentDidUpdate` : exécutée après componentWillUpdate (exécutée après que le composant ait été mis à jour dans le DOM render a déjà été ré-appelée)
+        + `componentWillUnMount` : exécutée juste avant que le composant ne soit retiré du DOM. Ex retire un component après 10s : ReactDOM.unmountComponentAtNode(document.getElementById('app'));}, 10000); 
+
+    <details><summary>code</summary>
+
+    ```javascript
+    import React from 'react';
+
+    class App extends React.Component {
+        constructor(props) {
+            super(props);
+            
+            this.state = {
+                data: 0
+            }
+            this.setNewNumber = this.setNewNumber.bind(this)
+        };
+        setNewNumber() {
+            this.setState({data: this.state.data + 1})
+        }
+        render() {
+            return (
+                <div>
+                    <button onClick = {this.setNewNumber}>INCREMENT</button>
+                    <Content myNumber = {this.state.data}></Content>
+                </div>
+            );
+        }
+    }
+    class Content extends React.Component {
+        componentWillMount() {
+            console.log('Component WILL MOUNT!')
+        }
+        componentDidMount() {
+            console.log('Component DID MOUNT!')
+        }
+        componentWillReceiveProps(newProps) {    
+            console.log('Component WILL RECIEVE PROPS!')
+        }
+        shouldComponentUpdate(newProps, newState) {
+            return true;
+        }
+        componentWillUpdate(nextProps, nextState) {
+            console.log('Component WILL UPDATE!');
+        }
+        componentDidUpdate(prevProps, prevState) {
+            console.log('Component DID UPDATE!')
+        }
+        componentWillUnmount() {
+            console.log('Component WILL UNMOUNT!')
+        }
+        render() {
+            return (
+                <div>
+                    <h3>{this.props.myNumber}</h3>
+                </div>
+            );
+        }
+    }
+    export default App;
+    ```
+    </details>
+
+3. React form :
+    - data dans le form est le state de component -> vérifier par onChange
+
+    <details><summary>code</summary>
+
+    ```javascript
+    class App extends React.Component {
+        constructor(props) {
+            super(props);
+            
+            this.state = {
+                data: 'Initial data...'
+            }
+            this.updateState = this.updateState.bind(this);
+        };
+        updateState(e) {
+            this.setState({data: e.target.value});
+        }
+        render() {
+            return (
+                <div>
+                    <input type = "text" value = {this.state.data} 
+                    onChange = {this.updateState} />
+                    <h4>{this.state.data}</h4>
+                </div>
+            );
+        }
+    }
+    ```
+    </details>
