@@ -66,3 +66,39 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+
+### Notes :
+1. State & Props :
+    - state : modifiable
+    - props : non modifiable car hérité de son component père
+    - Chemin : créer state dans le component père -> envoyer vers les components fils par props
+
+    ```javascript
+    class App extends React.Component { // père
+        constructor(props) {
+            super(props);
+            this.state = {
+                header: "Header from props test",
+                content: "Content from props tes"
+            }
+        }
+        render() {
+            return (
+                <div>
+                    <Header headerProp = {this.state.header}/>
+                    <Content contentProp = {this.state.content}/>
+                </div>
+            );
+        }
+    }
+    class Header extends React.Component { //fils
+        render() {
+            return (
+                <div>
+                    <h1>{this.props.headerProp}</h1>
+                </div>
+            );
+        }
+    }
+    ```
