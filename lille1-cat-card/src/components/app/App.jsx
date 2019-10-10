@@ -1,58 +1,67 @@
 import React from 'react';
 import '../../css/main.css';
-
-function CatCard({title="Random cat card"}) {
-    return (
-     <div class="flipper mb-3" ontouchstart="this.classList.toggle('hover');">
-         <div class="front card text-center shadow-sm">
-             <img class="card-img-top" src="https://cataas.com/cat?width=250&height=200" alt="Cat image" width="250" height="200" />
-             <div class="card-body">
-                 <h5 class="card-title">{title}</h5>
-             </div>
-         </div>
-
-         <div class="back card text-center shadow-sm">
-             <div class="card-body">
-                 <h6 class="card-subtitle mb-2 text-muted">Random cat card</h6>
-                 <p class="card-text">That card shows a random cat image.</p>
-             </div>
-
-             <div class="card-footer">
-                 <button href="#" class="btn btn-primary card-link">Edit that cat</button>
-             </div>
-         </div>
-     </div>
-    )
-}
+import CatCard from '../CatCard';
+import Form from '../Form';
 
 class App extends React.Component {
-   render() {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+        data:[
+            {
+                id: 1,
+                title: 'Random cat card 1',
+                imageUrl: 'https://cataas.com/cat?width=250&height=200',
+                description: 'That card shows a random cat image.'
+            },
+            {
+                id: 2,
+                title: 'Random cat card 2',
+                imageUrl: 'https://cataas.com/cat/says/Hello?width=250&height=200',
+                description: 'That card shows a random cat image with a text !'
+            }
+
+        ]};
+        this.addNewElement = this.addNewElement.bind(this);
+    };
+
+    addNewElement(formResult) {
+        var item = formResult;
+        var myArray = this.state.data.slice();
+        myArray.push(item);
+        this.setState({data: myArray});
+    }
+
+    render() {
         var date = new Date().getFullYear();
         return (
             <main>
-                <header class="bg-primary">
-                    <h1 class="text-white text-center p-3">Cat card app</h1>
+                <header className="bg-primary">
+                    <h1 className="text-white text-center p-3">Cat card app</h1>
                 </header>
-                <section class="container">
-            <h2>Cat card list</h2>
-            <hr />
-            <div class="card-group">
-                <CatCard title="test"></CatCard>
-            </div>
+                <section className="container">
+                    <h2>Cat card list</h2>
+                    <hr />
+                    <div className="card-group">
+                        {this.state.data.map((dynamicComponent, i) => <CatCard 
+                            key = {i} componentData = {dynamicComponent}/>)}
+                    </div>
 
-            <button class="btn btn-lg btn-danger circle add"><i class="fas fa-plus"></i></button>
+                    <button className="btn btn-lg btn-danger circle add"><i className="fas fa-plus"></i></button>
+                    
+                    {/* TODO : mettre dans la 2ème page */}
+                    <Form addNewElement={this.addNewElement} longueur = {this.state.data.length}/>
+                </section>
 
-            </section>
-
-
-            <footer class="bg-light">
-            <div class="container text-center">
-                <i class="far fa-copyright mr-1"></i><label> {date} - Lille 1 </label>
-                <span class="small font-italic infos"> No cat has been hurt during the development of this app. </span>
-            </div>
-            </footer>
-        </main>
-      );
-   }
+                <footer className="bg-light">
+                    <div className="container text-center">
+                        <i className="far fa-copyright mr-1"></i><label> {date} - Lille 1 </label>
+                        <span className="small font-italic infos"> No cat has been hurt during the development of this app. </span>
+                    </div>
+                </footer>
+            </main>
+        );
+    }
 }
 export default App;

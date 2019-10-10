@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## 1. Available Scripts
 
 In the project directory, you can run:
 
@@ -9,6 +9,7 @@ In the project directory, you can run:
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
+<details><summary>Autres</summary>
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
@@ -67,8 +68,9 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
 
+</details>
 
-## Notes :
+## 2. Notes :
 1. State & Props :
     - `state` : modifiable
     - `props` : non modifiable car hérité de son component père
@@ -288,5 +290,97 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
             );
         }
     }
+    ```
+    </details>
+
+4. React ref, key :
+    - ref : utilisé pour intéragir avec les résultats que le component retourne. Ex : quand on clique sur le bouton clear, l'input va être vidé et focus.
+
+    <details><summary>code</summary>
+
+    ```javascript
+    class App extends React.Component {
+        constructor(props) {
+            super(props);
+            this.state = {data: ''}
+            this.updateState = this.updateState.bind(this);
+            this.clearInput = this.clearInput.bind(this);
+        };
+        updateState(e) {
+            this.setState({data: e.target.value});
+        }
+        clearInput() {
+            this.setState({data: ''});
+            ReactDOM.findDOMNode(this.refs.myInput).focus();
+        }
+        render() {
+            return (
+                <div>
+                    <input value = {this.state.data} onChange = {this.updateState} ref = "myInput"></input>
+                    <button onClick = {this.clearInput}>CLEAR</button>
+                    <h4>{this.state.data}</h4>
+                </div>
+            );
+        }
+    } 
+    ```
+    </details>
+
+    - key : utilisé quand un component retourne un tableau ou une liste. Key est pour déterminer les éléments dans un tableau ou liste, quel élément a été ajouté/modifié/supprimé.
+
+    <details><summary>code</summary>
+
+    ```javascript
+    class App extends React.Component {
+        constructor() {
+            super();
+        
+            this.state = {
+                data:[
+                    {
+                    component: 'First...',
+                    id: 1
+                    },
+                    {
+                    component: 'Second...',
+                    id: 2
+                    },
+                    {
+                    component: 'Third...',
+                    id: 3
+                    }
+                ]
+            }
+        }
+        render() {
+            return (
+                <div>
+                    <div>
+                    {this.state.data.map((dynamicComponent, i) => <Content 
+                        key = {i} componentData = {dynamicComponent}/>)}
+                    </div>
+                </div>
+            );
+        }
+        }
+        class Content extends React.Component {
+        render() {
+            return (
+                <div>
+                    <div>{this.props.componentData.component}</div>
+                    <div>{this.props.componentData.id}</div>
+                </div>
+            );
+        }
+    }
+    ```
+    </details>
+
+
+
+    <details><summary>code</summary>
+
+    ```javascript
+    
     ```
     </details>
