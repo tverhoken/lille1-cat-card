@@ -11,13 +11,13 @@ class App extends React.Component {
         data:[
             {
                 id: 1,
-                title: 'Random cat card 1',
+                title: 'Random cat card',
                 imageUrl: 'https://cataas.com/cat?width=250&height=200',
                 description: 'That card shows a random cat image.'
             },
             {
                 id: 2,
-                title: 'Random cat card 2',
+                title: 'Random cat card',
                 imageUrl: 'https://cataas.com/cat/says/Hello?width=250&height=200',
                 description: 'That card shows a random cat image with a text !'
             }
@@ -47,8 +47,6 @@ class App extends React.Component {
                         {this.state.data.map((dynamicComponent, i) => <CatCard 
                             key = {i} componentData = {dynamicComponent}/>)}
                     </div>
-
-                    <button className="btn btn-lg btn-danger circle add"><i className="fas fa-plus"></i></button>
                     
                     {/* TODO : mettre dans la 2ème page */}
                     <Form addNewElement={this.addNewElement} longueur = {this.state.data.length}/>
