@@ -10,12 +10,16 @@ import { Card } from '../modele/card';
 export class CatCardListComponent implements OnInit {
 
   initialCards: Card[] = [];
- 
+
   constructor(private dataService: DataService) {
-    this.dataService.initData() 
-    this.initialCards = this.dataService.getInitialCards()
+    this.dataService.initData()
+    this.dataService.getAllCards().then(cards => {
+      this.initialCards = cards
+    })
+    this.dataService.getAllCards().then(cards => {
+    })
   }
-  
+
   ngOnInit() { }
 
 }

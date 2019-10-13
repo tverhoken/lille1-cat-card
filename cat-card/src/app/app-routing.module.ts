@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: '', redirectTo: 'cat-card-list', pathMatch: 'full' },
   { path: 'cat-card-list', component: CatCardListComponent },
   { path: 'cat-card-form', component: CatCardFormComponent },
+  { path: 'cat-card-form/:id', component: CatCardFormComponent },
   { path: '**', redirectTo: 'cat-card-list', pathMatch: 'full' }
 ];
 

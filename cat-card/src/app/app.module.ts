@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule, RouteComponent } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DataService } from './service/data.service';
+import { FormsModule } from '@angular/forms'
 
 @NgModule({
   declarations: [
@@ -12,7 +12,9 @@ import { DataService } from './service/data.service';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

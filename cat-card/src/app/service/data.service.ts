@@ -23,9 +23,6 @@ export class DataService {
     }
   ];
 
-  getInitialCards() {
-    return this.initialCards
-  }
 
   initData() {
     const cards: Card[] | null = JSON.parse(sessionStorage.getItem('cards'));

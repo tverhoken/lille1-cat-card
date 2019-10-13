@@ -1,6 +1,8 @@
-export interface Card {
-    id: number;
-    title: string;
-    imageUrl: string;
-    description?: string;
+export class Card {
+    constructor(
+        public id: number,
+        public title: string,
+        public imageUrl: string,
+        public description?: string
+    ) { }
 }
