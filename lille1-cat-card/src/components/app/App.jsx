@@ -34,31 +34,18 @@ class App extends React.Component {
     }
 
     render() {
-        var date = new Date().getFullYear();
         return (
-            <main>
-                <header className="bg-primary">
-                    <h1 className="text-white text-center p-3">Cat card app</h1>
-                </header>
-                <section className="container">
-                    <h2>Cat card list</h2>
-                    <hr />
-                    <div className="card-group">
-                        {this.state.data.map((dynamicComponent, i) => <CatCard 
-                            key = {i} componentData = {dynamicComponent}/>)}
-                    </div>
-                    
-                    {/* TODO : mettre dans la 2ème page */}
-                    <Form addNewElement={this.addNewElement} longueur = {this.state.data.length}/>
-                </section>
-
-                <footer className="bg-light">
-                    <div className="container text-center">
-                        <i className="far fa-copyright mr-1"></i><label> {date} - Lille 1 </label>
-                        <span className="small font-italic infos"> No cat has been hurt during the development of this app. </span>
-                    </div>
-                </footer>
-            </main>
+            <section className="container">
+                <h2>Cat card list</h2>
+                <hr />
+                <div className="card-group">
+                    {this.state.data.map((dynamicComponent, i) => <CatCard 
+                        key = {i} componentData = {dynamicComponent}/>)}
+                </div>
+                
+                {/* TODO : mettre dans la 2ème page */}
+                <Form addNewElement={this.addNewElement} longueur = {this.state.data.length}/>
+            </section>
         );
     }
 }

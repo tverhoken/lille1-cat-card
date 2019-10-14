@@ -25,7 +25,11 @@ export default class Form extends Component {
   saveElement(event) {
       event.preventDefault();
       this.state.id=this.props.longeur+1;
-      this.props.addNewElement(this.state);
+      //this.props.addNewElement(this.state);
+      this.props.history.push({
+        pathname: '/',
+        state: this.state
+      })
   }
 
   render() {
@@ -53,7 +57,7 @@ export default class Form extends Component {
           </div>
 
           <button className="btn btn-danger">Delete</button>
-          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="submit" className="btn btn-primary">Save</button>
       </form>
     );
   }
