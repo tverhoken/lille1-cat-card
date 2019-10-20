@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default  class CatCard extends React.Component {
     render() {
         return (
-            <div className="flipper mb-3" ontouchstart="this.classList.toggle('hover');">
+            <div className="flipper mb-3" onTouchStart="this.classList.toggle('hover');">
                 <div className="front card text-center shadow-sm">
-                    <img className="card-img-top" src={this.props.componentData.imageUrl} alt="Cat image" width="250" height="200" />
+                    <img className="card-img-top" src={this.props.componentData.imageUrl} alt="Cat" width="250" height="200" />
                     <div className="card-body">
                         <h5 className="card-title">{this.props.componentData.title} - {this.props.componentData.id}</h5>
                     </div>
@@ -16,9 +17,12 @@ export default  class CatCard extends React.Component {
                         <h6 className="card-subtitle mb-2 text-muted">{this.props.componentData.title}</h6>
                         <p className="card-text">{this.props.componentData.description}</p>
                     </div>
-    
+
                     <div className="card-footer">
-                        <button href="#" className="btn btn-primary card-link">Edit that cat</button>
+                        <button className="btn btn-primary">
+                            <Link to={{pathname: '/form/'+this.props.componentData.id}} className="btn-primary card-link">
+                                Edit that cat</Link>
+                        </button>
                     </div>
                 </div>
             </div>

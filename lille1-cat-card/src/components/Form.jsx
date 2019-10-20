@@ -3,13 +3,13 @@ import React, { Component } from 'react';
 export default class Form extends Component {
   constructor(props) {
       super(props);
-
       this.state = {
-          id:"",
+          id:-1,
           title:"",
           imageURL:"",
           description:""
       };
+      if (this.props.editData !== undefined) this.state = this.props.editData;
       this.handleInputChange = this.handleInputChange.bind(this);
       this.saveElement = this.saveElement.bind(this);
   };
@@ -23,13 +23,12 @@ export default class Form extends Component {
   }
 
   saveElement(event) {
-      event.preventDefault();
-      this.state.id=this.props.longeur+1;
-      //this.props.addNewElement(this.state);
-      this.props.history.push({
-        pathname: '/',
-        state: this.state
-      })
+    event.preventDefault();
+    if (this.props.longueur !== undefined) {
+        this.state.id = this.props.longueur+1; 
+        this.props.addNewElement(this.state);
+    }
+    this.props.history.push({pathname: '/'});
   }
 
   render() {

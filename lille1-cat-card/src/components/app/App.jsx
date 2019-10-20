@@ -1,7 +1,8 @@
 import React from 'react';
 import '../../css/main.css';
-import CatCard from '../CatCard';
+import Home from '../Home';
 import Form from '../Form';
+import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
 class App extends React.Component {
     constructor(props) {
@@ -12,13 +13,13 @@ class App extends React.Component {
             {
                 id: 1,
                 title: 'Random cat card',
-                imageUrl: 'https://cataas.com/cat?width=250&height=200',
+                imageUrl: 'https://cataas.com/cat',
                 description: 'That card shows a random cat image.'
             },
             {
                 id: 2,
                 title: 'Random cat card',
-                imageUrl: 'https://cataas.com/cat/says/Hello?width=250&height=200',
+                imageUrl: 'https://cataas.com/cat/says/Hello',
                 description: 'That card shows a random cat image with a text !'
             }
 
@@ -34,18 +35,30 @@ class App extends React.Component {
     }
 
     render() {
+        var date = new Date().getFullYear();
         return (
-            <section className="container">
-                <h2>Cat card list</h2>
-                <hr />
-                <div className="card-group">
-                    {this.state.data.map((dynamicComponent, i) => <CatCard 
-                        key = {i} componentData = {dynamicComponent}/>)}
-                </div>
-                
-                {/* TODO : mettre dans la 2ème page */}
-                <Form addNewElement={this.addNewElement} longueur = {this.state.data.length}/>
-            </section>
+            <Router>
+                <main>
+                    <header className="bg-primary">
+                        <h1 className="text-white text-center p-3">Cat card app</h1>
+                    </header>
+
+                    <Route exact path="/" render={(props) => (<Home {...props} myDataProp={this.state.data}/>)}/>
+                    <Route exact path="/form" render={(props) => (<Form {...props} longueur={this.state.data.length} addNewElement={this.addNewElement}/>)}/>
+                    <Route path="/form/:id" render={(props) => (<Form {...props} editData={this.state.data[props.match.params.id-1]} addNewElement={this.addNewElement}/>)}/>
+            
+                    <button className="btn btn-lg btn-danger circle add">
+                        <Link to="/form"><i className="fas fa-plus"></i></Link>
+                    </button>
+
+                    <footer className="bg-light">
+                        <div className="container text-center">
+                            <i className="far fa-copyright mr-1"></i><label> {date} - Lille 1 </label>
+                            <span className="small font-italic infos"> No cat has been hurt during the development of this app. </span>
+                        </div>
+                    </footer>
+                </main>
+            </Router>  
         );
     }
 }
