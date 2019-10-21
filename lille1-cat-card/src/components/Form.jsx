@@ -6,7 +6,7 @@ export default class Form extends Component {
       this.state = {
           id:-1,
           title:"",
-          imageURL:"",
+          imageUrl:"",
           description:""
       };
       if (this.props.editData !== undefined) this.state = this.props.editData;
@@ -43,8 +43,8 @@ export default class Form extends Component {
 
           <div className="form-group row">
               <label htmlFor="cardImage" className="col-sm-2 col-form-label">Card image URL</label>
-              <input name="imageURL" required className="form-control col-sm-10" placeholder="Card image URL" type = "text" 
-                  value = {this.state.imageURL} onChange = {this.handleInputChange} />
+              <input name="imageUrl" required className="form-control col-sm-10" placeholder="Card image URL" type = "text" 
+                  value = {this.state.imageUrl} onChange = {this.handleInputChange} />
               <div className="invalid-feedback offset-md-2 col-sm-10">That field is required. Please provide a value.</div>
           </div>
 
