@@ -11,7 +11,8 @@ export default class Form extends Component {
       };
       if (this.props.editData !== undefined) this.state = this.props.editData;
       this.handleInputChange = this.handleInputChange.bind(this);
-      this.saveElement = this.saveElement.bind(this);
+      this.onSubmit = this.onSubmit.bind(this);
+      this.onDelete = this.onDelete.bind(this);
   };
 
   handleInputChange(event) {
@@ -22,18 +23,28 @@ export default class Form extends Component {
       });
   }
 
-  saveElement(event) {
+  onSubmit(event) {
     event.preventDefault();
+    // soit ajoute
     if (this.props.longueur !== undefined) {
-        this.state.id = this.props.longueur+1; 
+        this.setState({id: this.props.longueur+1});
         this.props.addNewElement(this.state);
+    } else {
+    // soit modifie
+        this.props.updateCard(this.props.editData.id,this.state);
     }
+
     this.props.history.push({pathname: '/'});
+  }
+
+  onDelete(event){
+      this.props.deleteCard(this.props.editData.id);
+      this.props.history.push({pathname: '/'});
   }
 
   render() {
     return (
-      <form className="was-validated" onSubmit={this.saveElement}> 
+      <form className="was-validated" onSubmit={this.onSubmit}> 
           <div className="form-group row">
               <label htmlFor="cardTitle" className="col-sm-2 col-form-label">Card title</label>
               <input name="title" required className="form-control col-sm-10" placeholder="Card title" type = "text" 
@@ -55,7 +66,7 @@ export default class Form extends Component {
               <div className="invalid-feedback offset-md-2 col-sm-10">That field is required. Please provide a value.</div>
           </div>
 
-          <button className="btn btn-danger">Delete</button>
+          <button className="btn btn-danger" onClick={this.onDelete}>Delete</button>
           <button type="submit" className="btn btn-primary">Save</button>
       </form>
     );

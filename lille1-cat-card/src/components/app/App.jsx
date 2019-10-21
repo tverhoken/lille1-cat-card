@@ -25,6 +25,8 @@ class App extends React.Component {
 
         ]};
         this.addNewElement = this.addNewElement.bind(this);
+        this.updateCard = this.updateCard.bind(this);
+        this.deleteCard = this.deleteCard.bind(this);
     };
 
     addNewElement(formResult) {
@@ -32,6 +34,19 @@ class App extends React.Component {
         var myArray = this.state.data.slice();
         myArray.push(item);
         this.setState({data: myArray});
+    }
+
+    updateCard(id, cat){
+        var myArray = this.state.data.slice();
+        let oldCat = myArray.find((c) => c.id === id);
+        if (oldCat) {
+          Object.assign(oldCat, cat);
+        }
+        this.setState({data: myArray});
+    }
+
+    deleteCard(id){
+        this.setState({data: this.state.data.filter(cat => cat.id !== id)});
     }
 
     render() {
@@ -45,7 +60,7 @@ class App extends React.Component {
 
                     <Route exact path="/" render={(props) => (<Home {...props} myDataProp={this.state.data}/>)}/>
                     <Route exact path="/form" render={(props) => (<Form {...props} longueur={this.state.data.length} addNewElement={this.addNewElement}/>)}/>
-                    <Route path="/form/:id" render={(props) => (<Form {...props} editData={this.state.data[props.match.params.id-1]} addNewElement={this.addNewElement}/>)}/>
+                    <Route path="/form/:id" render={(props) => (<Form {...props} editData={this.state.data[props.match.params.id-1]} deleteCard={this.deleteCard} updateCard={this.updateCard}/>)}/>
             
                     <button className="btn btn-lg btn-danger circle add">
                         <Link to="/form"><i className="fas fa-plus"></i></Link>

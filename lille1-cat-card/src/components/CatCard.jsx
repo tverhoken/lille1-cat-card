@@ -2,9 +2,20 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default  class CatCard extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.handleTouchStart = this.handleTouchStart.bind(this);
+    }
+
+    handleTouchStart(event) {
+        this.classList.toggle('hover');
+    }
+
     render() {
         return (
-            <div className="flipper mb-3" onTouchStart="this.classList.toggle('hover');">
+            <div className="flipper mb-3" onTouchStart={this.handleTouchStart}>
                 <div className="front card text-center shadow-sm">
                     <img className="card-img-top" src={this.props.componentData.imageUrl} alt="Cat" width="250" height="200" />
                     <div className="card-body">
