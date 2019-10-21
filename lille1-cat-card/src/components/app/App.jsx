@@ -30,23 +30,30 @@ class App extends React.Component {
     };
 
     addNewElement(formResult) {
-        var item = formResult;
-        var myArray = this.state.data.slice();
-        myArray.push(item);
+        let myArray = this.state.data.slice();
+        myArray.push(formResult);
         this.setState({data: myArray});
     }
 
     updateCard(id, cat){
-        var myArray = this.state.data.slice();
+        let myArray = this.state.data.slice();
         let oldCat = myArray.find((c) => c.id === id);
         if (oldCat) {
           Object.assign(oldCat, cat);
+          this.setState({data: myArray});
         }
-        this.setState({data: myArray});
     }
 
-    deleteCard(id){
-        this.setState({data: this.state.data.filter(cat => cat.id !== id)});
+    deleteCard(id){    
+        let myArray = this.state.data.slice();
+        let elementToReplace = this.state.data[this.state.data.length-1];
+        elementToReplace.id = id;
+        let oldCat = myArray.find((c) => c.id === id);
+        if (oldCat) {
+          Object.assign(oldCat, elementToReplace);
+          myArray.pop();
+          this.setState({data: myArray});
+        }
     }
 
     render() {

@@ -27,8 +27,9 @@ export default class Form extends Component {
     event.preventDefault();
     // soit ajoute
     if (this.props.longueur !== undefined) {
-        this.setState({id: this.props.longueur+1});
-        this.props.addNewElement(this.state);
+        let element = this.state;
+        element.id =  this.props.longueur+1;
+        this.props.addNewElement(element);
     } else {
     // soit modifie
         this.props.updateCard(this.props.editData.id,this.state);
@@ -66,7 +67,7 @@ export default class Form extends Component {
               <div className="invalid-feedback offset-md-2 col-sm-10">That field is required. Please provide a value.</div>
           </div>
 
-          <button className="btn btn-danger" onClick={this.onDelete}>Delete</button>
+          <button  type="button" className="btn btn-danger" onClick={this.onDelete}>Delete</button>
           <button type="submit" className="btn btn-primary">Save</button>
       </form>
     );

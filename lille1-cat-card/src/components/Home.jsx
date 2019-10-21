@@ -1,5 +1,4 @@
 import React from 'react';
-// import '../css/main.css';
 import CatCard from './CatCard';
 
 class Home extends React.Component {
