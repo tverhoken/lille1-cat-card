@@ -1,59 +1,87 @@
 import React from 'react';
 import '../../css/main.css';
-
-function CatCard({title="Random cat card"}) {
-    return (
-     <div class="flipper mb-3" ontouchstart="this.classList.toggle('hover');">
-         <div class="front card text-center shadow-sm">
-             <img class="card-img-top" src="https://cataas.com/cat?width=250&height=200" alt="Cat image" width="250" height="200" />
-             <div class="card-body">
-                 <h5 class="card-title">{title}</h5>
-             </div>
-         </div>
-
-         <div class="back card text-center shadow-sm">
-             <div class="card-body">
-                 <h6 class="card-subtitle mb-2 text-muted">Random cat card</h6>
-                 <p class="card-text">That card shows a random cat image.</p>
-             </div>
-
-             <div class="card-footer">
-                 <button href="#" class="btn btn-primary card-link">Edit that cat</button>
-             </div>
-         </div>
-     </div>
-    )
-}
+import Home from '../Home';
+import Form from '../Form';
+import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
 
 class App extends React.Component {
-   render() {
-        var i = 1;
+    constructor(props) {
+        super(props);
+
+        this.state = {
+        data:[
+            {
+                id: 1,
+                title: 'Random cat card',
+                imageUrl: 'https://cataas.com/cat',
+                description: 'That card shows a random cat image.'
+            },
+            {
+                id: 2,
+                title: 'Random cat card',
+                imageUrl: 'https://cataas.com/cat/says/Hello',
+                description: 'That card shows a random cat image with a text !'
+            }
+
+        ]};
+        this.addNewElement = this.addNewElement.bind(this);
+        this.updateCard = this.updateCard.bind(this);
+        this.deleteCard = this.deleteCard.bind(this);
+    };
+
+    addNewElement(formResult) {
+        let myArray = this.state.data.slice();
+        myArray.push(formResult);
+        this.setState({data: myArray});
+    }
+
+    updateCard(id, cat){
+        let myArray = this.state.data.slice();
+        let oldCat = myArray.find((c) => c.id === id);
+        if (oldCat) {
+          Object.assign(oldCat, cat);
+          this.setState({data: myArray});
+        }
+    }
+
+    deleteCard(id){    
+        let myArray = this.state.data.slice();
+        let elementToReplace = this.state.data[this.state.data.length-1];
+        elementToReplace.id = id;
+        let oldCat = myArray.find((c) => c.id === id);
+        if (oldCat) {
+          Object.assign(oldCat, elementToReplace);
+          myArray.pop();
+          this.setState({data: myArray});
+        }
+    }
+
+    render() {
         var date = new Date().getFullYear();
         return (
-            <main>
-                <header class="bg-primary">
-                    <h1 class="text-white text-center p-3">Cat card app</h1>
-                </header>
-                <section class="container">
-            <h2>Cat card list</h2>
-            <hr />
-            <div class="card-group">
-                <CatCard title="test"></CatCard>
-            </div>
+            <Router>
+                <main>
+                    <header className="bg-primary">
+                        <h1 className="text-white text-center p-3">Cat card app</h1>
+                    </header>
 
-            <button class="btn btn-lg btn-danger circle add"><i class="fas fa-plus"></i></button>
+                    <Route exact path="/" render={(props) => (<Home {...props} myDataProp={this.state.data}/>)}/>
+                    <Route exact path="/form" render={(props) => (<Form {...props} longueur={this.state.data.length} addNewElement={this.addNewElement}/>)}/>
+                    <Route path="/form/:id" render={(props) => (<Form {...props} editData={this.state.data[props.match.params.id-1]} deleteCard={this.deleteCard} updateCard={this.updateCard}/>)}/>
+            
+                    <button className="btn btn-lg btn-danger circle add">
+                        <Link to="/form"><i className="fas fa-plus"></i></Link>
+                    </button>
 
-            </section>
-
-
-            <footer class="bg-light">
-            <div class="container text-center">
-                <i class="far fa-copyright mr-1"></i><label> {date} - Lille 1 </label>
-                <span class="small font-italic infos"> No cat has been hurt during the development of this app. </span>
-            </div>
-            </footer>
-        </main>
-      );
-   }
+                    <footer className="bg-light">
+                        <div className="container text-center">
+                            <i className="far fa-copyright mr-1"></i><label> {date} - Lille 1 </label>
+                            <span className="small font-italic infos"> No cat has been hurt during the development of this app. </span>
+                        </div>
+                    </footer>
+                </main>
+            </Router>  
+        );
+    }
 }
 export default App;
