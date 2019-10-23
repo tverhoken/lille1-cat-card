@@ -2,7 +2,7 @@ import React from 'react';
 import '../../css/main.css';
 import Home from '../Home';
 import Form from '../Form';
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
 
 class App extends React.Component {
     constructor(props) {
@@ -68,10 +68,6 @@ class App extends React.Component {
                     <Route exact path="/" render={(props) => (<Home {...props} myDataProp={this.state.data}/>)}/>
                     <Route exact path="/form" render={(props) => (<Form {...props} longueur={this.state.data.length} addNewElement={this.addNewElement}/>)}/>
                     <Route path="/form/:id" render={(props) => (<Form {...props} editData={this.state.data[props.match.params.id-1]} deleteCard={this.deleteCard} updateCard={this.updateCard}/>)}/>
-            
-                    <button className="btn btn-lg btn-danger circle add">
-                        <Link to="/form"><i className="fas fa-plus"></i></Link>
-                    </button>
 
                     <footer className="bg-light">
                         <div className="container text-center">
