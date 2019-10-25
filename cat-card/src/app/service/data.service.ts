@@ -62,12 +62,13 @@ export class DataService {
     });
   }
 
-  createCard(card: Card): Promise<void> {
+  createCard(card): Promise<void> {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const cards: Card[] | null = JSON.parse(sessionStorage.getItem('cards'));
-        if (cards && cards.length) {
+        if (cards) {
           const maxId = Math.max(...cards.map(c => c.id));
+          console.log(maxId)
           cards.push({ id: maxId + 1, ...card });
           sessionStorage.setItem('cards', JSON.stringify(cards));
           resolve();

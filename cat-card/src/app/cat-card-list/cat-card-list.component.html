@@ -15,11 +15,12 @@
                     <p class="card-text">{{card.description}}</p>
                 </div>
                 <div class="card-footer">
-                    <button [routerLink]="['/cat-card-form/',card.id]" class="btn btn-primary card-link">Edit that
+                    <button [routerLink]="['/cat-card-form',card.id]" class="btn btn-primary card-link">Edit that
                         cat</button>
                 </div>
             </div>
         </div>
     </div>
-    <button [routerLink]="['/cat-card-form/']" class="btn btn-lg btn-danger circle add"><i class="fas fa-plus"></i></button>
+    <button [routerLink]="['/cat-card-form/']" class="btn btn-lg btn-danger circle add"><i
+            class="fas fa-plus"></i></button>
 </section>

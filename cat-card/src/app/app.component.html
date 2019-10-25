@@ -1,6 +1,6 @@
 <main>
   <header class="bg-primary">
-      <a routerLinkActive="router-link-active"  class="btn btn-primary back-btn"><i class="fas fa-caret-left mr-2"></i>Back</a>
+    <a  [routerLink]="['/']" routerLinkActive="router-link-active"  *ngIf="displaybackButton" class="btn btn-primary back-btn"><i class="fas fa-caret-left mr-2"></i>Back</a>
     <h1 class="text-white text-center p-3">Cat card app</h1>
   </header>
 
